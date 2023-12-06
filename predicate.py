@@ -216,7 +216,6 @@ def temporal_robustness_sum(m, z, abs=False, zero=False):
     N = z.shape[0]
     theta_left = temporal_robustness_left(m, z, abs, zero)
     theta_right = temporal_robustness_right(m, z, abs, zero)
-
     theta = m.addMVar(shape=(N, 1), vtype=GRB.INTEGER, name="theta", lb=-GRB.INFINITY, ub=GRB.INFINITY)
     m.addConstr(theta == theta_left + theta_right)
     return theta

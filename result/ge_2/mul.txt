@@ -1,0 +1,6 @@
+variables: 1827
+continuous variables: 517
+integer variables: 1310
+binary variables: 588
+constraints: 2063
+running time: 4.049869
