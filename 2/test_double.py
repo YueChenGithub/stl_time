@@ -1,10 +1,8 @@
 import gurobipy as gp
-from gurobipy import GRB
 import numpy as np
 import matplotlib.pyplot as plt
-from stl import *
-from predicate import predicate
-import os
+from stl.stl import *
+from stl.predicate import predicate
 
 if __name__ == "__main__":
     # set time horizon

@@ -1,9 +1,8 @@
 import gurobipy as gp
-from gurobipy import GRB
 import numpy as np
 import matplotlib.pyplot as plt
-from stl import *
-from predicate import predicate
+from stl.stl import *
+from stl.predicate import predicate
 import os
 from find_max_area import G_left, G_right
 
