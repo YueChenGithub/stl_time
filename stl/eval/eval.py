@@ -35,11 +35,13 @@ def draw_robustness_graph(ax, xi_minus, t_xi_minus, y_xi_minus, xi_plus, t_xi_pl
     ax.legend(bbox_to_anchor=(1.05, 1.0), loc='upper left', reverse=True)
 
 
-    ax.set_title('Specification Robustness')
+    ax.set_title('Robustness' ,fontweight='bold')
     if x_lim is not None:
         ax.set_xlim(-x_lim, x_lim)
         ax.set_ylim(-x_lim, x_lim)
         ax.set_aspect("equal")
+
+    return xi_plus, xi_minus, rho_optimal, theta
 
 
 

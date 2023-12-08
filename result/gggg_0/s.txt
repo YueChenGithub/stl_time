@@ -3,4 +3,4 @@ continuous variables: 413
 integer variables: 28
 binary variables: 28
 constraints: 626
-running time: 0.004937
+running time: 0.005246

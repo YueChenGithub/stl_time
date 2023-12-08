@@ -18,7 +18,7 @@ def predicate(m, y, a, b, robustness='s'):
     right_t: right hand temporal robustness
     combined_t: combined temporal robustness
     '''
-    robustness_list = ['s', 't_min', 't_sum', 't_left', 't_right', 'c_min', 'c_sum', 'c_left', 'c_right']
+    robustness_list = ['s', 't_min', 't_sum', 't_left', 't_right', 'c_min', 'c_sum', 'c_left', 'c_right', 'c_sum2']
     assert robustness in robustness_list, f"robustness type must be in {str(robustness_list)}"
     if robustness == 's':
         r = spatial_robustness(m, y, a, b)
@@ -48,6 +48,13 @@ def predicate(m, y, a, b, robustness='s'):
         theta = temporal_robustness_sum(m, z, abs=True, zero=False)
         r = m.addMVar(shape=(y.shape[0], 1), vtype=GRB.CONTINUOUS, name="r", lb=-GRB.INFINITY, ub=GRB.INFINITY)
         m.addConstr(r == rho * theta)
+    if robustness == 'c_sum2':
+        # not working
+        rho = spatial_robustness(m, y, a, b)
+        z = satification(m, y, a, b)
+        theta = temporal_robustness_min(m, z, abs=False, zero=False)
+        r = m.addMVar(shape=(y.shape[0], 1), vtype=GRB.CONTINUOUS, name="r", lb=-GRB.INFINITY, ub=GRB.INFINITY)
+        m.addConstr(r == rho + theta)
     if robustness == 'c_left':
         m.setParam("NonConvex", 2)
         rho = spatial_robustness(m, y, a, b)
@@ -87,6 +94,8 @@ def satification(m, y, a, b):
     # m.addConstr(-(a * y - b) <= M * (1-z) - eps)
     # m.addConstr(a * y - b <= M * z - eps)
     return z
+
+
 
 def spatial_robustness(m, y, a, b):
     '''
