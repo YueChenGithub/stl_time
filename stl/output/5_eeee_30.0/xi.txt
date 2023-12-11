@@ -1,0 +1,10 @@
+xi_plus: 37.454545
+xi_minus: 14.363636
+rho: 15.909091
+theta: 3.000000
+constraints: 3039
+continuous variables: 2305
+integer variables: 290
+binary variables: 290
+running time: 17.044584
+variables: 2595

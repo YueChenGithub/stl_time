@@ -8,6 +8,7 @@ import os
 from eval.eval import *
 from draw_graph1 import draw_and_save
 import argparse
+import scipy
 
 def main(method, x0):
     # set time horizon
@@ -48,7 +49,7 @@ def main(method, x0):
     b2 = 10
     t_left2 = 35
     t_right2 = 40
-    if method not in ['mul', 'sum']:
+    if method not in ['mul', 'sum', 'xi']:
         # predicate level or operator level
         global_operator = globally_min
         robustness = method
@@ -69,7 +70,7 @@ def main(method, x0):
         r2s = finally_max(m, r2, 0, t_left2, t_right2) * weight_F
         r = quant_and(m, [r1s, r2s])
 
-    else:
+    elif method in ['mul', 'sum']:
         # specification level
         r1_1 = predicate(m, y, a1, b1, robustness='s')
         r1s_1 = globally_min(m, r1_1, 0, t_left1, t_right1)
@@ -94,6 +95,25 @@ def main(method, x0):
             m.addConstr(r == r_1 + r_2)
             m.addConstr(r_1 >= 0)
             m.addConstr(r_2 >= 0)
+    elif method == 'xi':
+        def get_rho(t0):
+            r1_1 = predicate(m, y, a1, b1, robustness='s')
+            r1s_1 = globally_min(m, r1_1, t0, t_left1, t_right1)
+            r2_1 = predicate(m, y, a2, b2, robustness='s')
+            r2s_1 = finally_max(m, r2_1, t0, t_left2, t_right2)
+            return quant_and(m, [r1s_1, r2s_1])
+
+        t_total = 5
+        r_list = m.addMVar(shape=(t_total, 1), vtype=GRB.CONTINUOUS, name="r", lb=-GRB.INFINITY, ub=GRB.INFINITY)
+        for t0 in range(t_total):
+            r0 = quant_and(m, [get_rho(t0), get_rho(-t0)])
+            m.addConstr(r_list[t0, 0] == r0 * scipy.stats.multivariate_normal.pdf(t0, mean=0, cov=5))
+        r = m.addMVar(shape=(1, 1), vtype=GRB.CONTINUOUS, name="r", lb=-GRB.INFINITY, ub=GRB.INFINITY)
+        m.addConstr(r == r_list.sum())
+
+
+
+
 
     # goal constraint
     # m.addConstr(y[T] == 0)  # reach the goal
@@ -134,8 +154,8 @@ def main(method, x0):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Run main function with variable x.")
-    # ['s', 't_min', 'c_min', 'c_sum2', 'G_s', 'G_c_min', 'mul', 'sum', '0']
-    parser.add_argument("-method", type=str, default='t_sum')
-    parser.add_argument("-x0", type=float, default=30)
+    # ['s', 't_min', 'c_min', 'c_sum2', 'G_s', 'G_c_min', 'mul', 'sum', '0', 'xi']
+    parser.add_argument("-method", type=str, default='xi')
+    parser.add_argument("-x0", type=float, default=0)
     args = parser.parse_args()
     main(args.method, args.x0)

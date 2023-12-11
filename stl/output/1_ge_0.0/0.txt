@@ -6,5 +6,5 @@ constraints: 491
 continuous variables: 309
 integer variables: 14
 binary variables: 14
-running time: 0.008869
+running time: 0.008912
 variables: 323

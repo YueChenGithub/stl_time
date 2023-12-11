@@ -73,6 +73,7 @@ def draw_and_save(Q, R, T, a1, a2, a3, a4, b1, b2, b3, b4, m, output_dir, r, rob
     # axs[v_position].axvline(x=t_right2, color='gray', linestyle='--', alpha=0.5)
     # axs[v_position].axhline(y=0, color='gray', linestyle='--', alpha=0.5)
     # axs[v_position].set_ylim(-v_max, v_max)
+
     # plot xi
     rhos1 = cal_shifted_rho(a1, b1, t_left1, t_right1, y, operator[0])
     rhos2 = cal_shifted_rho(a2, b2, t_left2, t_right2, y, operator[2])

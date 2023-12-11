@@ -1,15 +1,17 @@
 import numpy as np
 
 def draw_original_singal(ax, b, a, t, y, t_right, t_left):
-    ax.plot(t, y, color='blue', label='original')
+    ax.fill_between(np.arange(t_left, t_right + 1), b / a, 32, color='springgreen', alpha=0.5, label='Globally')
+    # ax.fill_between(np.arange(t_left, t_right + 1), b / a, 32, color='skyblue', alpha=0.5, label='Eventually')
+    ax.plot(t, y, color='#1f77b4', label='Original')
     ax.axvline(x=t_left, color='grey', linestyle='--', alpha=0.5)
     ax.axvline(x=t_right, color='grey', linestyle='--', alpha=0.5)
     ax.axhline(y=b, color='grey', linestyle='--', alpha=0.5)
-    ax.fill_between(np.arange(t_left, t_right + 1), b / a, 32, color='springgreen', alpha=0.5)
     ax.set_xlabel('time')
     ax.set_ylabel('y')
     ax.set_xlim(0, 50)
     ax.set_ylim(0, 30)
+    ax.legend(loc='upper right')
 
 
 def draw_robustness_graph(ax, xi_minus, t_xi_minus, y_xi_minus, xi_plus, t_xi_plus, y_xi_plus, x_lim=None):

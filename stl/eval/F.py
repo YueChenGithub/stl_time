@@ -60,7 +60,7 @@ def main():
     if not os.path.exists(output_dir):
         os.makedirs(output_dir)
 
-    fig, axs = plt.subplots(2, 1, figsize=(6, 12), constrained_layout=True)
+    fig, axs = plt.subplots(2, 1, figsize=(5, 6), gridspec_kw={'height_ratios': [1.5, 1]}, constrained_layout=True)
     # plot the original curve
     draw_original_singal(axs[0], b, a, t, y, t_right, t_left)
     # plot the robustness graph
@@ -83,12 +83,13 @@ def main():
         frame = 0
         for tt, yy in zip(t_xi_minus, y_xi_minus):
             # draw the original curve and the robustness graph
-            fig, axs = plt.subplots(2, 1, figsize=(6, 12), constrained_layout=True)
+            fig, axs = plt.subplots(2, 1, figsize=(5, 6), gridspec_kw={'height_ratios': [1.5, 1]},
+                                    constrained_layout=True)
             draw_original_singal(axs[0], b, a, t, y, t_right, t_left)
             draw_robustness_graph(axs[1], xi_minus, t_xi_minus, y_xi_minus, xi_plus, t_xi_plus, y_xi_plus, x_lim)
             # plot the shifted curve
-            axs[0].plot(t + tt, y + yy, color='violet', label='shifted')
-            axs[0].legend()
+            axs[0].plot(t + tt, y + yy, color='violet', label='Shifted')
+            axs[0].legend(loc='upper right')
             # plot the perturbation point
             axs[1].plot(tt, yy, 'o', color='violet', markersize=10)
 
@@ -101,12 +102,13 @@ def main():
         frame = 0
         for tt, yy in zip(t_xi_plus, y_xi_plus):
             # draw the original curve and the robustness graph
-            fig, axs = plt.subplots(2, 1, figsize=(6, 12), constrained_layout=True)
+            fig, axs = plt.subplots(2, 1, figsize=(5, 6), gridspec_kw={'height_ratios': [1.5, 1]},
+                                    constrained_layout=True)
             draw_original_singal(axs[0], b, a, t, y, t_right, t_left)
             draw_robustness_graph(axs[1], xi_minus, t_xi_minus, y_xi_minus, xi_plus, t_xi_plus, y_xi_plus, x_lim)
             # plot the shifted curve
-            axs[0].plot(t + tt, y + yy, color='red', label='shifted')
-            axs[0].legend()
+            axs[0].plot(t + tt, y + yy, color='red', label='Shifted')
+            axs[0].legend(loc='upper right')
             # plot the perturbation point
             axs[1].plot(tt, yy, 'o', color='red', markersize=10)
 
