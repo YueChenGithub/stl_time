@@ -155,7 +155,7 @@ def main(method, x0):
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Run main function with variable x.")
     # ['s', 't_min', 'c_min', 'c_sum2', 'G_s', 'G_c_min', 'mul', 'sum', '0', 'xi']
-    parser.add_argument("-method", type=str, default='xi')
+    parser.add_argument("-method", type=str, default='t_right')
     parser.add_argument("-x0", type=float, default=0)
     args = parser.parse_args()
     main(args.method, args.x0)
